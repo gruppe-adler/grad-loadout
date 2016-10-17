@@ -236,3 +236,73 @@ The loadout options are completely modular, just use what you need and nothing m
 ### Important
 
 Support for `linkedItems[]` , `weapons[]` , `items[]`,  `magazines[]`, `addItems[]` and `addMagazines[]` has been dropped with version 4.x , due to the amount of work it would've required to make it work with `getUnitLoadout/setUnitLoadout` .
+
+# selectors old
+*
+* AllUnits
+* AllAi {!(isPlayer _unit)}
+* AllPlayable {_unit in playableUnits}
+* AllPlayers {isPlayer _unit}
+* AllUnits >> Type >> typeof _unit
+* AllAi >> Type >> typeof _unit
+* AllPlayable >> Type >> typeof _unit
+* AllPlayers >> Type >> typeof _unit
+* Blufor {side _unit == blufor}
+* Opfor {side _unit == opfor}
+* Independent {side _unit == independent}
+* Civilian {side _unit == civilian}
+* BluforAi { side _unit == blufor && { !isPlayer _unit }}
+* OpforAi { side _unit == opfor && { !isPlayer _unit }}
+* IndependentAi { side _unit == independent && { !isPlayer _unit }}
+* CivilianAi { side _unit == civilian && { !isPlayer _unit }}
+* BluforPlayers { side _unit == blufor && { isPlayer _unit }}
+* OpforPlayers { side _unit == opfor && { isPlayer _unit }}
+* IndependentPlayers { side _unit == independent && { isPlayer _unit }}
+* CivilianPlayers { side _unit == civilian && { isPlayer _unit }}
+* Type >> typeof _unit
+* Rank >> rank _unit
+* Name >> (str _unit splitString "_" select 0)
+* Role >> ([roleDescription _unit] call BIS_fnc_filterString);
+*
+# Selectors Ziel
+
+* AllUnits
+* AllAi
+* AllPlayers
+* Blufor {side _unit == blufor}
+* Opfor {side _unit == opfor}
+* Independent {side _unit == independent}
+* Civilian {side _unit == civilian}
+* Type >> typeof _unit
+* Rank >> rank _unit
+* Name >> (str _unit splitString "_" select 0)
+* Role >> ([roleDescription _unit] call BIS_fnc_filterString);
+* Faction >> ([_unit] call GRAD_Loadout_FactionGetLoadout)
+	* AllUnits
+	* AllAi
+	* AllPlayers
+	* Type >> ([typeof _unit] call GRAD_Loadout_DeFactionizeType)
+	* Rank >> rank _unit
+	* Role >> ([roleDescription _unit] call BIS_fnc_filterString);
+
+#### init.sqf
+
+["BLU_T", "BwFleck"] call GRAD_Loadout_FactionSetLoadout;
+["BLU_G_T", "BwTrop"] call GRAD_Loadout_FactionSetLoadout;
+
+#### grad-factions
+
+class Loadouts {
+   class Factions {
+       class BwFleck {
+           class Type {
+               class Soldier_F { };
+           };
+       };
+       class BwTrop {
+           class Type {
+               class Soldier_F { };
+           };
+       };
+   };
+};
