@@ -40,7 +40,11 @@ private _walkIntoArray = {
 };
 
 private _assignFromLoadoutHash = {
-    params [["_indices",[]],["_entryName",""],"_classNameToPickOrMapper"];
+    params [
+        ["_indices",[]],
+        ["_entryName",""],
+        "_classNameToPickOrMapper"
+    ];
 
     if ( [_loadoutHash, _entryName] call CBA_fnc_hashHasKey ) then {
         private _value = [_loadoutHash, _entryName] call CBA_fnc_hashGet;
