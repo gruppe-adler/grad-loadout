@@ -6,17 +6,17 @@
 
 params ["_contentFromConfig"];
 
-private _CBA_fnc_hashIncr = {
+private _hashIncr = {
     params ["_hash","_key"];
 
-    _value = 1;
-    if ([_hash, _key] call CBA_fnc_hashHasKey) then {
-        _value = _value + ([_hash, _key] call CBA_fnc_hashGet);
+    private _value = 1;
+    if (_key in _hash) then {
+        _value = _value + (_hash get _key);
     };
-    [_hash, _key, _value] call CBA_fnc_hashSet;
+    _hash set [_key, _value];
 };
 
-private _magazines = [] call CBA_fnc_hashCreate;
+private _magazines = createHashMap;
 private _contentForLoadout = [];
 
 {
@@ -30,24 +30,21 @@ private _contentForLoadout = [];
             if (!(_underbarrelMagazine isEqualTo "") && isNumber (configFile >> "CfgMagazines" >> _underbarrelMagazine >> "count")) then {
                 _underbarrelMagazine = [_underbarrelMagazine, (getNumber (configFile >> "CfgMagazines" >> _underbarrelMagazine >> "count"))];
             };
-            _contentForLoadout pushBack [[_weapon, _muzzle, _pointer, _optics, _magazine, _underbarrelMagazine, _underbarrel],1];
+            _contentForLoadout pushBack [[_weapon, _muzzle, _pointer, _optics, _magazine, _underbarrelMagazine, _underbarrel], 1];
         };
     } else {
-        [_magazines, _x] call _CBA_fnc_hashIncr;
+        [_magazines, _x] call _hashIncr;
     };
 } forEach _contentFromConfig;
 
-[
-    _magazines,
-    {
-        _className = _key;
+{
+    _className = _x;
 
-        if (_className isKindOf ["CA_Magazine", configFile >> "CfgMagazines"]) then {
-            _contentForLoadout pushBack [_key, _value, 1];
-        } else {
-            _contentForLoadout pushBack [_key, _value];
-        };
-    }
-] call CBA_fnc_hashEachPair;
+    if (_className isKindOf ["CA_Magazine", configFile >> "CfgMagazines"]) then {
+        _contentForLoadout pushBack [_x, _y, 1];
+    } else {
+        _contentForLoadout pushBack [_x, _y];
+    };
+} forEach _magazines;
 
 _contentForLoadout

@@ -1,13 +1,9 @@
 #include "component.hpp"
 
-params ["_loadoutHash", "_unitLoadout"];
-
-if (typeName _loadoutHash != "ARRAY") then {
-    throw "loadoutHash is not of type array (and thus, no cba hash) :(("
-};
-if (typeName _unitLoadout != "ARRAY") then {
-    throw "_unitLoadout is not of type array :(("
-};
+params [
+    ["_loadoutHash", createHashMap, [createHashMap]],
+    ["_unitLoadout", [], [[]]]
+];
 
 // CBA_fnc_findTypeName ? CBA_fnc_findTypeOf ?
 
@@ -39,8 +35,8 @@ private _walkIntoArray = {
 private _assignFromLoadoutHash = {
     params [["_indices",[]],["_entryName",""],"_classNameToPickOrMapper"];
 
-    if ( [_loadoutHash, _entryName] call CBA_fnc_hashHasKey ) then {
-        private _value = [_loadoutHash, _entryName] call CBA_fnc_hashGet;
+    if ( _entryName in _loadoutHash ) then {
+        private _value = _loadoutHash get _entryName;
         if (!(isNil "_classNameToPickOrMapper")) then {
             if (typeName _classNameToPickOrMapper == "CONFIG") then {
                 _value = [_value, _classNameToPickOrMapper] call _getFirstOfType;

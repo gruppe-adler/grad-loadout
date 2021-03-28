@@ -58,12 +58,12 @@ private _ctrlFirstActivated = controlNull;
     _ctrlButton setVariable [QGVAR(hashKey), _hashKey];
     _ctrlButton ctrlAddEventHandler ["buttonClick", {[_this#0, true] call FUNC(onCustomGearTabButton)}];
 
-    private _availableOptions = [_loadoutOptionsHash, _hashKey] call CBA_fnc_hashGet;
+    private _availableOptions = _loadoutOptionsHash getOrDefault [_hashKey, []];
 
     // check if weapon categories have accessories available
     private _hasSubOptionsAvailable = false;
     {
-        private _availableSubOptions = [_loadoutOptionsHash, _x] call CBA_fnc_hashGet;
+        private _availableSubOptions = _loadoutOptionsHash getOrDefault [_x, []];
         if (_availableSubOptions isEqualType [] && {count _availableSubOptions > 0}) exitWith {
             _hasSubOptionsAvailable = true;
         };

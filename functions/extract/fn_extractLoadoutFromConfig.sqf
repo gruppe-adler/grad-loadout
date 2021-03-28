@@ -30,16 +30,16 @@ private _isWeapon = {
     "handgunWeaponAttachments"
 ];
 
-private _configValues = [] call CBA_fnc_hashCreate;
+private _configValues = createHashMap;
 
 {
     private _value = [_configPath >> _x, "text", false] call  CBA_fnc_getConfigEntry;
     if (!(_value isEqualTo false)) then {
-        [_configValues, _x, _value] call CBA_fnc_hashSet;
+        _configValues set [_x, _value];
     };
     _value = [_configPath >> _x, "array", false] call CBA_fnc_getConfigEntry;
     if (!(_value isEqualTo false)) then {
-        [_configValues, _x, _value] call CBA_fnc_hashSet;
+        _configValues set [_x, _value];
     };
 } forEach [
     "uniform",
@@ -80,7 +80,7 @@ private _configValues = [] call CBA_fnc_hashCreate;
 {
     private _value = [_configPath >> _x, "array", false] call  CBA_fnc_getConfigEntry;
     if (!(_value isEqualTo false)) then {
-        [_configValues, _x, _value] call CBA_fnc_hashSet;
+        _configValues set [_x, _value];
     };
 } forEach [
     "addItemsToUniform",
@@ -137,7 +137,7 @@ if (!(_value isEqualTo false)) then {
         };
 
     } forEach _value;
-    [_configValues, "addItemsToBackpack", _value] call CBA_fnc_hashSet;
+    _configValues set ["addItemsToBackpack", _value];
 };
 
 _configValues

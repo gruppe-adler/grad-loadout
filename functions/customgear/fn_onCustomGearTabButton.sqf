@@ -15,12 +15,12 @@ _ctrlTabSelected ctrlCommit 0;
 
 // get available options for selected category
 private _hashKey = _button getVariable [QGVAR(hashKey), ""];
-private _loadoutOptionsHash = _display getVariable [QGVAR(loadoutOptionsHash), []];
-private _availableOptions = if !([_loadoutOptionsHash] call CBA_fnc_isHash) then {
+private _loadoutOptionsHash = _display getVariable [QGVAR(loadoutOptionsHash), false];
+private _availableOptions = if (_loadoutOptionsHash isEqualTo false) then {
     ERROR("_loadoutOptionsHash got lost along the way and is no longer a hash.");
     []
 } else {
-    [_loadoutOptionsHash, _hashKey] call CBA_fnc_hashGet
+    _loadoutOptionsHash getOrDefault [_hashKey, false];
 };
 
 // fill listbox with available options
@@ -95,7 +95,7 @@ if (_isLeftSide) then {
 
             _hashKey = _hashKeyArray select _forEachIndex;
             _ctrlButton setVariable [QGVAR(hashKey), _hashKey];
-            _availableOptions = [_loadoutOptionsHash, _hashKey] call CBA_fnc_hashGet;
+            _availableOptions = _loadoutOptionsHash get _hashKey;
 
             if !(_availableOptions isEqualType [] && {count _availableOptions > 0}) then {
                 _ctrlButton ctrlEnable false;
