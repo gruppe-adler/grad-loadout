@@ -33,11 +33,15 @@ private _currentItemCyclableStates = ["MRT_SwitchItemNextClass", _currentItem] c
 if (count (_currentItemCyclableStates arrayIntersect _keyOptions) > 0) exitWith {true};
 
 // check RHS base item (2D/3D/PiP optics)
-private _currentItemRHSBase = [configfile >> "CfgWeapons" >> _currentItem, "rhs_optic_base", _currentItem] call BIS_fnc_returnConfigEntry;
-if ((toLower _currentItemRHSBase) in _keyOptions) exitWith {true};
+private _currentItemBaseRHS = [configfile >> "CfgWeapons" >> _currentItem, "rhs_optic_base", _currentItem] call BIS_fnc_returnConfigEntry;
+if ((toLower _currentItemBaseRHS) in _keyOptions) exitWith {true};
 
 // check RHS cyclable state
 private _currentItemCyclableStatesRHS = ["rhs_accessory_next", _currentItem] call _fnc_getAllCyclableItems;
 if (count (_currentItemCyclableStatesRHS arrayIntersect _keyOptions) > 0) exitWith {true};
+
+// check TFAR parent
+private _currentItemTFARparent = [configfile >> "CfgWeapons" >> _currentItem, "tf_parent", _currentItem] call BIS_fnc_returnConfigEntry;
+if ((toLower _currentItemTFARparent) in _keyOptions) exitWith {true};
 
 false
