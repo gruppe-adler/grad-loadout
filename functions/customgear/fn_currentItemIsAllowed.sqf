@@ -12,10 +12,14 @@ if ((toLower _currentItem) in _keyOptions) exitWith {true};
 private _currentItemBase = [_unit, _currentItemKey, true] call FUNC(getCurrentItem);
 if ((toLower _currentItemBase) in _keyOptions) exitWith {true};
 
-// check RHS base item of currently equipped item (only optics)
+// check RHS base item (2D/3D/PiP optics) and next item (cyclable optics, e.g. magnifiers) of currently equipped item
 if (_currentItemKey in ["primaryWeaponOptics", "secondaryWeaponOptics", "handgunWeaponOptics"]) then {
     private _currentItemRHSBase = [configfile >> "CfgWeapons" >> _currentItem, "rhs_optic_base", _currentItem] call BIS_fnc_returnConfigEntry;
-    (toLower _currentItemRHSBase) in _keyOptions
+    private _currentItemRHSNext = [configfile >> "CfgWeapons" >> _currentItem, "rhs_accessory_next", _currentItem] call BIS_fnc_returnConfigEntry;
+
+    ((toLower _currentItemRHSBase) in _keyOptions) ||
+    ((toLower _currentItemRHSNext) in _keyOptions)
+
 } else {
     false
 }
