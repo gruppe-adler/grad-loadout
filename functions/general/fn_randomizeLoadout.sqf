@@ -22,16 +22,16 @@ private _randomizationEnabledForUnit = switch (true) do {
 };
 
 {
-    private _value = [_loadoutHash, _x] call CBA_fnc_hashGet;
+    private _value = _loadoutHash get _x;
     if (!isNil "_value" && {_value isEqualType []}) then {
         if (count _value == 0) then {_value = ""} else {
             _value = _value apply {toLower _x};
             if (
                 !isNil "_savedCustomGearHash" &&
-                {[_savedCustomGearHash, _x] call CBA_fnc_hashHasKey} &&
-                {([_savedCustomGearHash, _x] call CBA_fnc_hashGet) in _value}
+                {_x in _savedCustomGearHash} &&
+                {(_savedCustomGearHash get _x) in _value}
             ) then {
-                _value = [_savedCustomGearHash, _x] call CBA_fnc_hashGet;
+                _value = _savedCustomGearHash get _x;
             } else {
                 if (_randomizationEnabledForUnit) then {
                     _value = selectRandom _value;
@@ -40,7 +40,7 @@ private _randomizationEnabledForUnit = switch (true) do {
                 };
             };
         };
-        [_loadoutHash, _x, _value] call CBA_fnc_hashSet;
+        _loadoutHash set [_x, _value];
     };
 } forEach [
     "uniform",

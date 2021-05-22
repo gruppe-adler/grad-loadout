@@ -95,8 +95,8 @@ private _fnc_checkContainers = {
     params ["_loadoutHash","_unit"];
     {
         _x params ["_containerKey","_itemsKey"];
-        _container = [_loadoutHash,_containerKey] call CBA_fnc_hashGet;
-        _itemsList = [_loadoutHash,_itemsKey] call CBA_fnc_hashGet;
+        _container = _loadoutHash get _containerKey;
+        _itemsList = _loadoutHash get _itemsKey;
 
         if (!isNil "_itemsList" && (isNil "_container" || {_container == ""}) && {count _itemsList > 0}) then {
             _errorLog pushBack [format ["no %1 for %2",_containerKey,_itemsKey],_unit];
@@ -135,13 +135,13 @@ private _fnc_checkWeapons = {
 
     {
         _x params ["_weaponKey","_weaponAccessoryKeys","_magazineKeys"];
-        _weaponClassname = [_loadoutHash,_weaponKey] call CBA_fnc_hashGet;
+        _weaponClassname = _loadoutHash get _weaponKey;
         if (!isNil "_weaponClassname" && {_weaponClassname != ""}) then {
             if !([_weaponClassname,["cfgWeapons"]] call _fnc_checkClassExists) then {
                 _errorLog pushBack [format ["%1 %2 does not exist",_x,_weaponClassname]];
             } else {
                 {
-                    _accessoryClassname = [_loadoutHash,_x] call CBA_fnc_hashGet;
+                    _accessoryClassname = _loadoutHash get _x;
                     if (!isNil "_accessoryClassname" && {_accessoryClassname != ""}) then {
                         if !([_weaponClassname,_accessoryClassname,_forEachIndex] call _fnc_checkAccessoryFits) then {
                             _errorLog pushBack [format ["%1 %2 is not compatible with weapon %3",_x,_accessoryClassname,_weaponClassname],_unit];
@@ -150,7 +150,7 @@ private _fnc_checkWeapons = {
                 } forEach _weaponAccessoryKeys;
 
                 {
-                    _magazineClassname = [_loadoutHash,_x] call CBA_fnc_hashGet;
+                    _magazineClassname = _loadoutHash get _x;
                     if (!isNil "_magazineClassname" && {_magazineClassname != ""}) then {
                         if !([_weaponClassname,_magazineClassname,_forEachIndex] call _fnc_magazineFits) then {
                             _errorLog pushBack [format ["%1 %2 is not compatible with weapon %3",_x,_magazineClassname,_weaponClassname],_unit];
@@ -262,7 +262,7 @@ private _fnc_checkOther = {
     params ["_loadoutHash","_unit"];
 
     {
-        _otherClassname = [_loadoutHash,_x] call CBA_fnc_hashGet;
+        _otherClassname = _loadoutHash get _x;
         if (!isNil "_otherClassname" && {_otherClassname != ""}) then {
             if !([_otherClassname] call _fnc_checkClassExists) then {
                 _errorLog pushBack [format ["%1 %2 does not exist",_x,_otherClassname],_unit];
@@ -316,7 +316,7 @@ private _verifiedLoadoutCount = 0;
     [_loadoutHash] call FUNC(randomizeLoadout);
     _loadoutHash = [_loadoutHash,_x] call FUNC(ApplyRevivers);
 
-    if (([_loadoutHash] call CBA_fnc_hashSize) > 0) then {
+    if ((count _loadoutHash) > 0) then {
         [_loadoutHash,_x] call _fnc_verify;
         _verifiedLoadoutCount = _verifiedLoadoutCount + 1;
     };

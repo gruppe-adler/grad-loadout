@@ -1,10 +1,9 @@
 #include "component.hpp"
 
-params ["_loadoutHash", "_loadoutTarget"];
-
-if (typeName _loadoutHash != "ARRAY") then {
-    throw "loadoutHash is not of type array (and thus, no cba hash) :(("
-};
+params [
+    ["_loadoutHash", createHashMap, [createHashMap]],
+    ["_loadoutTarget", objNull, [objNull]]
+];
 
 private _unitLoadout = [
   [], [], [], // weapons
