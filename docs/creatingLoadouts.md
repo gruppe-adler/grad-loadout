@@ -34,7 +34,7 @@ class AllUnits {
 ```
 
 ## Options
-These are the different options can use for making a loadout, with a bit of an explanation of how they behave.
+These are the different options one can use for making a loadout, with a bit of an explanation of how they behave.
 The loadout options are completely modular, just use what you need and nothing more:
 
 | Option                             | Explanation                                                                      |
