@@ -77,7 +77,7 @@ There are a couple of generic classes for you to use, ontop of being able to spe
     * Side/
         * Blufor|Opfor|Independent|Civilian
         * BluforAi|OpforAi|IndependentAi|CivilianAi
-        * BluforPlayer|OpforPlayer|IndependentPlayer|CivilianPlayer
+        * BluforPlayers|OpforPlayers|IndependentPlayers|CivilianPlayers
     * Type/
         * class name, e.g. B_Soldier_F
     * Rank/
