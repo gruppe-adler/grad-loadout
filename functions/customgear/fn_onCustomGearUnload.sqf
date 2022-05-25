@@ -11,13 +11,13 @@ GVAR(customGearCam) = nil;
 private _unit = _display getVariable [QGVAR(unit), objNull];
 private _loadoutOptionsHash = _display getVariable [QGVAR(loadoutOptionsHash), []];
 
-private _savedCustomGearHash = [[], false] call CBA_fnc_hashCreate;
+private _savedCustomGearHash = createHashMap;
 
-[_loadoutOptionsHash, {
-    private _currentItem = [_unit, _key, true] call FUNC(getCurrentItem);
+{
+    private _currentItem = [_unit, _x, true] call FUNC(getCurrentItem);
     if (_currentItem isEqualType "" && {_currentItem != ""}) then {
-        [_savedCustomGearHash, _key, toLower _currentItem] call CBA_fnc_hashSet;
+        _savedCustomGearHash set [_x, toLower _currentItem];
     };
-}] call CBA_fnc_hashEachPair;
+} forEach _loadoutOptionsHash;
 
 _unit setVariable [QGVAR(savedCustomGearHash), _savedCustomGearHash, false];

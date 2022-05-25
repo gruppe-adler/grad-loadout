@@ -14,7 +14,7 @@ private _loadoutHash = [_unit, _configPath] call FUNC(GetUnitLoadoutFromConfig);
 [_loadoutHash, _unit] call FUNC(randomizeLoadout);
 _loadoutHash = [_loadoutHash, _unit] call FUNC(ApplyRevivers);
 
-if (([_loadoutHash] call CBA_fnc_hashSize) > 0) then {
+if ((count _loadoutHash) > 0) then {
     [_loadoutHash, _unit] call FUNC(DoLoadout);
 } else {
     TRACE_1("no loadout entries found for %1, skipping unit", _unit);

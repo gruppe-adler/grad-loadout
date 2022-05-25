@@ -43,7 +43,7 @@ GVAR(customGearCondition) = if (_enabled isEqualType 0) then {
     _unit setVariable [QGVAR(customGearOptionsCache), _customGearOptionsHash];
 
     // notification the first time customization becomes available after loadout application
-    if (count ([_customGearOptionsHash] call CBA_fnc_hashKeys) > 0) then {
+    if (count _customGearOptionsHash > 0) then {
         [{(missionNamespace getVariable ["CBA_missionTime", 0]) > 10 && {[_this] call GVAR(customGearCondition)}}, {
             if (isClass (configfile >> "CfgNotifications" >> "GRAD_saveMarkers_notification")) then {
                 ["GRAD_saveMarkers_notification", ["GRAD CUSTOM GEAR", "Loadout customization now available. (Selfinteract >> Equipment)"]] call BIS_fnc_showNotification;
@@ -76,7 +76,7 @@ private _action = [
                 private _loadoutHash = [_unit, _configPath] call FUNC(GetUnitLoadoutFromConfig);
                 private _customGearOptionsHash = [_unit, _loadoutHash] call FUNC(getCustomGearOptions);
             };
-            count ([_customGearOptionsHash] call CBA_fnc_hashKeys) > 0
+            count _customGearOptionsHash > 0
         }
     }
 ] call ace_interact_menu_fnc_createAction;
